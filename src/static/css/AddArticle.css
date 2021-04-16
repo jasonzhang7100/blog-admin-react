@@ -1,0 +1,101 @@
+.add-markdown-content {
+  max-height: 750px;
+  font-size: 16px;
+}
+
+.add-show-html {
+  overflow: auto;
+  height: 750px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  font-size: 16px;
+}
+
+.add-show-html h1 {
+  font-size: 30px;
+}
+
+.add-show-html h2 {
+  border-bottom: 1px solid #cbcbcb;
+  font-size: 28px;
+}
+
+.add-show-html h3 {
+  font-size: 24px;
+}
+
+.add-show-html pre {
+  display: block;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+}
+
+.add-show-html pre>code {
+  background-color: #f0f0f0;
+  color: #000;
+}
+
+.add-show-html code {
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin: 0px 3px;
+  background-color: #fff5f5;
+  color: #ff502c;
+}
+
+.add-show-html blockquote {
+  padding: 10px 10px 10px 30px;
+  border-left: 4px solid #cbcbcb;
+  background-color: #f8f8f8;
+}
+
+.add-introduce-html {
+  overflow: auto;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  font-size: 16px;
+}
+
+.add-introduce-html h1 {
+  font-size: 30px;
+}
+
+.add-introduce-html h2 {
+  border-bottom: 1px solid #cbcbcb;
+  font-size: 28px;
+}
+
+.add-introduce-html h3 {
+  font-size: 24px;
+}
+
+.add-introduce-html pre {
+  display: block;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+}
+
+.add-introduce-html pre>code {
+  background-color: #f0f0f0;
+  color: #000;
+}
+
+.add-introduce-html code {
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin: 0px 3px;
+  background-color: #fff5f5;
+  color: #ff502c;
+}
+
+.add-introduce-html blockquote {
+  padding: 10px 10px 10px 30px;
+  border-left: 4px solid #cbcbcb;
+  background-color: #f8f8f8;
+}

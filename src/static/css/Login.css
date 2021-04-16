@@ -1,0 +1,12 @@
+body {
+  background-color: #f0f0f0;
+}
+
+.login-layout {
+  margin: 150px auto;
+  width: 400px;
+}
+
+.ant-input-affix-wrapper {
+  margin-bottom: 15px;
+}
