@@ -11,9 +11,13 @@ const { TextArea } = Input;
 const AddArticle = props => {
 
   const [typeInfo, setTypeInfo] = useState([]);
-  const [showDate, setShowDate] = useState();
+  const [articleId, setArticleId] = useState(0);
+  const [selectedType, setSelectedType] = useState('Select Type');
   const [articleTitle, setArticleTitle] = useState('');
-  const [selectedType, setSelectedType] = useState('选择类别');
+  const [articleContent, setArticleContent] = useState('');
+  const [introduceContent, setIntroduceContent] = useState('');
+  const [showDate, setShowDate] = useState();
+
 
   const getTypeInfo = () => {
     axios({
@@ -23,7 +27,7 @@ const AddArticle = props => {
       withCredentials: true
     }).then(
       res => {
-        if (res.data.data === "没有登录") {
+        if (res.data.data === 'Not Login') {
           localStorage.removeItem('openId');
           props.history.push('/');
         } else {
@@ -33,27 +37,96 @@ const AddArticle = props => {
     );
   };
 
-  useEffect(() => { getTypeInfo() }, []);
+  const getArticleById = id => {
+    axios(servicePath.getArticleById + id, {
+      withCredentials: true,
+      header: { 'Access-Control-Allow-Origin': '*' }
+    }).then(
+      res => {
+        const articleInfo = res.data.data[0];
+        setArticleTitle(articleInfo.title);
+        setIntroduceContent(articleInfo.introduce);
+        setArticleContent(articleInfo.article_content);
+        // setShowDate(getArticleById.addTime);
+        console.log(articleInfo.typeName);
+        setSelectedType(articleInfo.typeName);
+        console.log(selectedType);
+      }
+    );
+  };
+
+  useEffect(() => {
+    getTypeInfo();
+    const tempId = props.match.params.id;
+    if (tempId) {
+      setArticleId(tempId);
+      getArticleById(tempId);
+    }
+  }, []);
 
   const saveArticle = () => {
-    if (selectedType === '选择类别') {
-      message.error('必须选择文章类别');
+    if (selectedType === 'Not Login') {
+      message.error('Type is required');
       return false;
     } else if (!articleTitle) {
-      message.error('文章名称不能为空');
+      message.error('Title is required');
       return false;
-      // } else if (!articleContent) {
-      //   message.error('文章内容不能为空');
-      //   return false;
-      // } else if (!introducemd) {
-      //   message.error('简介不能为空');
-      //   return false;
+    } else if (!articleContent) {
+      message.error('Content is required');
+      return false;
+    } else if (!introduceContent) {
+      message.error('Introduce is required');
+      return false;
     } else if (!showDate) {
-      message.error('发布日期不能为空');
+      message.error('Release date is required');
       return false;
     }
-    message.success('检验通过');
+    // message.success('All Checked');
+
+    const dataProps = {};
+    dataProps.type_id = selectedType;
+    dataProps.title = articleTitle;
+    dataProps.article_content = articleContent;
+    dataProps.introduce = introduceContent;
+
+    if (articleId === 0) {
+      axios({
+        method: 'post',
+        url: servicePath.addArticle,
+        data: dataProps,
+        withCredentials: true
+      }).then(
+        res => {
+          setArticleId(res.data.insertId);
+          if (res.data.insertSuccess) {
+            message.success('Add new article successfully');
+          } else {
+            message.error('Fail to add new article');
+          }
+        }
+      );
+    } else {
+      dataProps.id = articleId;
+      axios({
+        method: 'post',
+        url: servicePath.updateArticle,
+        data: dataProps,
+        withCredentials: true
+      }).then(
+        res => {
+          if (res.data.updateSuccess) {
+            message.success('Modify successfully');
+          } else {
+            message.error('Fail to modify article');
+          }
+        }
+      );
+    }
   };
+
+
+
+
 
   return (
     <div>
@@ -63,7 +136,7 @@ const AddArticle = props => {
             <Col span={20}>
               <Input
                 value={articleTitle}
-                placeholder="博客标题"
+                placeholder="Post Title"
                 size="large"
                 onChange={e => setArticleTitle(e.target.value)}
               />
@@ -82,9 +155,10 @@ const AddArticle = props => {
           <Row gutter={8} >
             <Col span={12}>
               <TextArea
-                className="add-markdown-content"
+                value={articleContent}
                 rows={32}
-                placeholder="文章内容"
+                placeholder="Article Content"
+                onChange={e => setArticleContent(e.target.value)}
               />
             </Col>
             <Col span={12}>
@@ -97,15 +171,17 @@ const AddArticle = props => {
         <Col span={6}>
           <Row>
             <Col span={24}>
-              <Button size="large">暂存文章</Button>&nbsp;&nbsp;
-              <Button type="primary" size="large" onClick={saveArticle}>发布文章</Button>
+              <Button size="large">Save Article</Button>&nbsp;&nbsp;
+              <Button type="primary" size="large" onClick={saveArticle}>Release Article</Button>
               <br /><br />
             </Col>
 
             <Col span={24}>
               <TextArea
+                value={introduceContent}
                 rows={8}
-                placeholder="文章简介"
+                placeholder="Article Introduce"
+                onChange={e => setIntroduceContent(e.target.value)}
               />
               <br /><br />
               <div className="add-introduce-html">introduce</div>
@@ -114,7 +190,7 @@ const AddArticle = props => {
 
             <Col span={24}>
               <DatePicker
-                placeholder="发布日期"
+                placeholder="Select Time"
                 size="large"
                 onChange={(date, dateString) => setShowDate(dateString)}
               />

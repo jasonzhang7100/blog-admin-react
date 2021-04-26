@@ -6,8 +6,8 @@ import AdminIndex from './pages/AdminIndex';
 
 const App = () => (
   <>
-    <Route path="/login" exact component={Login} />
-    <Route path="/index" exact component={AdminIndex} />
+    <Route path="/login" component={Login} />
+    <Route path="/index" component={AdminIndex} />
   </>
 );
 
