@@ -9,8 +9,9 @@ import {
 } from '@ant-design/icons';
 
 import AddArticle from './AddArticle';
-// import ArticleList from './ArticleList';
+import ArticleList from './ArticleList';
 import '../static/css/AdminIndex.css';
+import logo from '../static/JZblog_logo.png';
 
 const { Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -21,53 +22,70 @@ const AdminIndex = props => {
 
   const onCollapse = collapsed => setCollapsed(collapsed);
 
-  // const handleClickArticle = e => {
-  //   // console.log(e.item.props)
-  //   if (e.key === 'addArticle') {
-  //     props.history.push('/index/add');
-  //   } else {
-  //     props.history.push('/index/list');
-  //   }
-  // };
+  const handleClickArticle = e => {
+    // console.log(e.item.props)
+    if (e.key === 'addArticle') {
+      props.history.push('/index/add');
+    } else {
+      props.history.push('/index/list');
+    }
+  };
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
-        <div className="admin-logo">JSblog</div>
+        <a href="https://jzblog.com/" className="admin-logo">
+          <img src={logo} alt="logo" />
+        </a>
 
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
           <Menu.Item key="1" icon={<PieChartOutlined />}>
-            工作台
+            Dashboard
           </Menu.Item>
 
           <Menu.Item key="2" icon={<DesktopOutlined />}>
-            添加文章
+            Add Artilce
           </Menu.Item>
 
-          <SubMenu key="sub1" icon={<UserOutlined />} title="文章管理">
-            <Menu.Item key="addArticle">添加文章</Menu.Item>
-            <Menu.Item key="articleList">文章列表</Menu.Item>
+          <SubMenu
+            key="sub1"
+            icon={<UserOutlined />}
+            title="Article Management"
+            onClick={handleClickArticle}
+          >
+            <Menu.Item key="addArticle">Add Article</Menu.Item>
+            <Menu.Item key="articleList">Article List</Menu.Item>
           </SubMenu>
 
           <Menu.Item key="3" icon={<FileOutlined />}>
-            留言管理
+            Message Management
           </Menu.Item>
         </Menu>
       </Sider>
 
       <Layout className="site-layout">
         <Breadcrumb style={{ margin: '15px' }}>
-          <Breadcrumb.Item>后台管理系统</Breadcrumb.Item>
-          <Breadcrumb.Item>工作台</Breadcrumb.Item>
+          <Breadcrumb.Item>Data Management System</Breadcrumb.Item>
+          <Breadcrumb.Item>Workbench</Breadcrumb.Item>
         </Breadcrumb>
 
         <Content style={{ margin: '0 15px' }}>
           <div style={{ padding: '24px', background: '#fff', minHeight: 400 }}>
             <Route path="/index" exact component={AddArticle} />
+            <Route path="/index/add" exact component={AddArticle} />
+            <Route path="/index/add/:id" exact component={AddArticle} />
+            <Route path="/index/list" exact component={ArticleList} />
           </div>
         </Content>
 
-        <Footer style={{ textAlign: 'center' }}>JZblog.com</Footer>
+        <Footer style={{ textAlign: 'center' }}>
+          <div>
+            Driven by {<a href="https://reactjs.org/">React</a>} + {<a href="https://ant.design/">Antd</a>}
+          </div>
+          <div>
+            <a href="https://jzblog.com/">JZblog.com</a>
+          </div>
+        </Footer>
       </Layout>
     </Layout>
   )

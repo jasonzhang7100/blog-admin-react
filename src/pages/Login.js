@@ -16,10 +16,10 @@ const Login = props => {
     setIsLoading(true);
 
     if (!userName) {
-      message.error('用户名不能为空');
+      message.error('Username is empty');
       return;
     } else if (!password) {
-      message.error('密码不能为空');
+      message.error('Password is empty');
       return;
     }
 
@@ -36,11 +36,11 @@ const Login = props => {
     }).then(
       res => {
         setIsLoading(false);
-        if (res.data.data === '登录成功') {
+        if (res.data.data === 'Login Success') {
           localStorage.setItem('openId', res.data.openId);
-          props.history.push('/index');
+          props.history.replace('/index');
         } else {
-          message.error('用户名或密码错误');
+          message.error('Incorrect username or password');
         }
       }
     );
