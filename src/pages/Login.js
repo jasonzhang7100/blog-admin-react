@@ -38,7 +38,7 @@ const Login = props => {
         setIsLoading(false);
         if (res.data.data === 'Login Success') {
           localStorage.setItem('openId', res.data.openId);
-          props.history.push('/index');
+          props.history.replace('/index');
         } else {
           message.error('Incorrect username or password');
         }
